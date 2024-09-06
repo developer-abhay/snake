@@ -32,4 +32,36 @@ body {
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  background-color: aliceblue;
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  grid-template-rows: repeat(20, 1fr);
+}
+
+.cell {
+  width: 24px;
+  height: 24px;
+  border: 1px solid lightgray;
+  display: flex;
+  align-items: center;
+}
+.food {
+  margin: auto;
+  width: 18px;
+  height: 18px;
+  background-color: red;
+  border-radius: 50%;
+  animation: sizeChange 1s linear infinite;
+}
+
+@keyframes sizeChange {
+  0% {
+    scale: 0.8;
+  }
+  50% {
+    scale: 1;
+  }
+  100% {
+    scale: 0.8;
+  }
 }
