@@ -54,6 +54,15 @@ body {
   animation: sizeChange 1s linear infinite;
 }
 
+.snake-cell {
+  width: 24px;
+  height: 24px;
+  background-color: #242424;
+}
+.snake-head {
+  background-color: green;
+}
+
 @keyframes sizeChange {
   0% {
     scale: 0.8;
