@@ -1,6 +1,8 @@
 import "./style.css";
 
 const board = document.getElementById("app");
+let direction = "right";
+
 const rows = Array(20).fill("");
 let grid = Array(20)
   .fill()
@@ -11,8 +13,6 @@ let snake = [
   [10, 9],
   [10, 8],
 ];
-
-let direction = "up";
 
 // Create cells
 function createDiv(rowIndex, colIndex) {
@@ -25,19 +25,15 @@ function createDiv(rowIndex, colIndex) {
 
 // Create food
 function createFood() {
-  const oldFood = document.querySelector(".food");
-  if (oldFood) {
-    oldFood.remove();
-  }
-
   const row = Math.floor(Math.random() * 20);
   const col = Math.floor(Math.random() * 20);
   const div = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
 
   const food = document.createElement("div");
   food.classList.add("food");
-
   div.appendChild(food);
+  //   if (!cell.children[0]?.classList.contains("snake-cell")) {
+  //   }
 }
 
 // Render snake
@@ -95,6 +91,8 @@ function moveSnake() {
   }
 
   snake = [...copy];
+
+  eatFood();
   const cells = document.querySelectorAll(".cell");
   cells.forEach((cell) => {
     if (cell.children[0]?.classList.contains("snake-cell")) {
@@ -102,18 +100,31 @@ function moveSnake() {
     }
   });
   renderSnake();
-  console.log(snake);
+}
+
+// Eat food
+function eatFood() {
+  const oldFood = document.querySelector(".food");
+  const row = oldFood.parentElement.dataset.row;
+
+  const col = oldFood.parentElement.dataset.col;
+
+  if (oldFood && snake[0][0] == row && snake[0][1] == col) {
+    oldFood.remove();
+    createFood();
+    snake.push(["", ""]);
+  }
 }
 
 // Arrow keys event listeners
 window.addEventListener("keydown", (e) => {
-  if (e.key == "ArrowUp") {
+  if (e.key == "ArrowUp" && direction != "down") {
     direction = "up";
-  } else if (e.key == "ArrowDown") {
+  } else if (e.key == "ArrowDown" && direction != "up") {
     direction = "down";
-  } else if (e.key == "ArrowLeft") {
+  } else if (e.key == "ArrowLeft" && direction != "right") {
     direction = "left";
-  } else if (e.key == "ArrowRight") {
+  } else if (e.key == "ArrowRight" && direction != "left") {
     direction = "right";
   }
 });
@@ -125,7 +136,7 @@ grid.forEach((item, rowIndex) => {
   });
 });
 
-// createFood();
-// setInterval(createFood, 2000);
+createFood();
 renderSnake();
-setInterval(moveSnake, 1000);
+
+setInterval(moveSnake, 100);
